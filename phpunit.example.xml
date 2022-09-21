@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <server name="TRUSTPILOT_BUSINESS_UNIT_ID" value="" />
+        <server name="TRUSTPILOT_API_KEY" value="" />
+        <server name="TRUSTPILOT_API_SECRET" value="" />
+        <server name="TRUSTPILOT_USERNAME" value="" />
+        <server name="TRUSTPILOT_PASSWORD" value="" />
+    </php>
+</phpunit>
