@@ -1,11 +1,10 @@
-# Very short description of the package
+# PHP Trustpilot API Service
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/smart-contact/trustpilot-api-service.svg?style=flat-square)](https://packagist.org/packages/smart-contact/trustpilot-api-service)
 [![Total Downloads](https://img.shields.io/packagist/dt/smart-contact/trustpilot-api-service.svg?style=flat-square)](https://packagist.org/packages/smart-contact/trustpilot-api-service)
 ![GitHub Actions](https://github.com/smart-contact/trustpilot-api-service/actions/workflows/main.yml/badge.svg)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
-
+PHP Service class for trustpilot APIs.
 ## Installation
 
 You can install the package via composer:
@@ -15,9 +14,30 @@ composer require smart-contact/trustpilot-api-service
 ```
 
 ## Usage
+To use this class you have to pass this information: business unit ID, API KEY, API Secret, your username and password.
+The Service will automatically get an access token for the private API requests and when the token is invalid will automatically refresh.
+
+All the available methods tries to follow the same name as the API documentation.
+All 'GET' requests, accept a param as query params and use the same keys as documentation.
+All 'POST' requests, accept 2 params, data and options(optional), same as query params, all keys are equals to the documentation.
 
 ```php
-// Usage description here
+use SmartContact/TrustpilotApiService/TrustpilotApiService;
+
+$trustpilotService = new TrustpilotApiService([
+  'business_unit_id' => '123456789',
+  'api_key' => 'abcdefghijklmnopqrstuvwxyz',
+  'api_secret' => '123456789abcdefghi',
+  'username' => 'user@trustpilot.com',
+  'password' => 'P4ssw0rd'
+]);
+
+
+//get invitation templates
+$data = $trustpilotService->getInvitationTemplates();
+
+var_dump($data['templates'])
+
 ```
 
 ### Testing
@@ -33,10 +53,6 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-### Security
-
-If you discover any security related issues, please email federico.mameli@smart-contact.it instead of using the issue tracker.
 
 ## Credits
 
