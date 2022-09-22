@@ -13,10 +13,7 @@ class TrustpilotApiService
     private array $credentials;
     private string $businessUnitId;
     protected string $privateUri;
-
-    protected array $defaultOptions = [
-        'version' => 'v1'
-    ];
+    protected string $apiVersion;
 
     protected array $defaultRequestConfig = [
         'uri' => null,
@@ -34,12 +31,10 @@ class TrustpilotApiService
      */
     public function __construct(array $options)
     {
-        [
-            'version' => $apiVersion
-        ] = $options + $this->defaultOptions;
+        $this->apiVersion = array_key_exists('version', $options) ? $options['version'] : 'v1';
 
         $this->client = new Client([
-            'base_uri' => "https://api.trustpilot.com/{$apiVersion}/"
+            'base_uri' => "https://api.trustpilot.com/{$this->apiVersion}/"
         ]);
 
         $this->secrets = [
@@ -56,6 +51,17 @@ class TrustpilotApiService
         $this->privateUri = "private/business-units/{$this->businessUnitId}";
 
         $this->authenticate($this->secrets, $this->credentials);
+    }
+
+    protected function getInvitationsClient()
+    {
+        if (!$this->invitationsClient) {
+            $this->invitationsClient = new Client([
+                'base_uri' => "https://invitations-api.trustpilot.com/{$this->apiVersion}/"
+            ]);
+        }
+
+        return $this->invitationsClient;
     }
 
     /**
@@ -90,7 +96,7 @@ class TrustpilotApiService
             $options['headers']['apiKey'] = $this->secrets['api_key'];
         }
 
-        $client = $config['useInvitationsClient'] ? $this->invitationsClient : $this->client;
+        $client = $config['useInvitationsClient'] ? $this->getInvitationsClient() : $this->client;
         $response = $client->request($method, $uri, $options);
 
         return json_decode($response->getBody(), $config['associativeResponses']);
