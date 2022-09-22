@@ -13,7 +13,7 @@ final class TrustpilotApiServiceTest extends TestCase
   {
     parent::setUp();
     $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-    $dotenv->load();
+    $dotenv->safeLoad();
   }
 
   private function getServiceOptions()
