@@ -120,15 +120,19 @@ class TrustpilotApiService
 
         $authorization = base64_encode(join(':', $secrets));
 
-        $response = $this->client->post($uri, [
-            'headers' => [
-                'Authorization' => $authorization
-            ],
-            'form_params' => [
-                ...$credentials,
-                'grant_type' => 'password'
+        $response = $this->client->post(
+            $uri,
+            [
+                'headers' => [
+                    'Authorization' => $authorization
+                ],
+                'form_params' => array_merge(
+                    $credentials,
+                    ['grant_type' => 'password']
+                )
             ]
-        ]);
+        );
+
 
         $data = json_decode($response->getBody(), true);
 
