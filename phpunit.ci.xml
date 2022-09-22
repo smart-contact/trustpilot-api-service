@@ -8,11 +8,4 @@
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <server name="TRUSTPILOT_BUSINESS_UNIT_ID" value="" />
-        <server name="TRUSTPILOT_API_KEY" value="" />
-        <server name="TRUSTPILOT_API_SECRET" value="" />
-        <server name="TRUSTPILOT_USERNAME" value="" />
-        <server name="TRUSTPILOT_PASSWORD" value="" />
-    </php>
 </phpunit>
