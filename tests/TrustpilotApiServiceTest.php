@@ -2,25 +2,36 @@
 
 namespace SmartContact\TrustpilotApiService\Tests;
 
+use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 use SmartContact\TrustpilotApiService\TrustpilotApiService;
 
 final class TrustpilotApiServiceTest extends TestCase
 {
 
-  private $serviceOptions = [
-    'business_unit_id' => '5e42bc5c37ca7e0001bb19d4',
-    'api_key' => 'bVqGnIQShbPsbtiZmCnQcseZ8PBm6QSQ',
-    'api_secret' => 'gSQX4dU4sqB5MgeH',
-    'username' => 'dev@smart-contact.it',
-    'password' => '76Vz#sjKY^HeYE'
-  ];
+  protected function setUp(): void
+  {
+    parent::setUp();
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
+  }
+
+  private function getServiceOptions()
+  {
+    return [
+      'business_unit_id' => $_ENV['TRUSTPILOT_BUSINESS_UNIT_ID'],
+      'api_key' => $_ENV['TRUSTPILOT_API_KEY'],
+      'api_secret' => $_ENV['TRUSTPILOT_API_SECRET'],
+      'username' => $_ENV['TRUSTPILOT_USERNAME'],
+      'password' => $_ENV['TRUSTPILOT_PASSWORD']
+    ];
+  }
 
   /** @test */
   public function shouldSetAccessTokenWhenIsInstantiated()
   {
 
-    $trustpilotService = new TrustpilotApiService($this->serviceOptions);
+    $trustpilotService = new TrustpilotApiService($this->getServiceOptions());
 
     $accessToken = $trustpilotService->getAccessToken();
     $this->assertNotNull($accessToken);
@@ -32,7 +43,7 @@ final class TrustpilotApiServiceTest extends TestCase
   /** @test */
   public function shouldUseAccessTokenAlreadyTakenIfStillValid()
   {
-    $trustpilotService = new TrustpilotApiService($this->serviceOptions);
+    $trustpilotService = new TrustpilotApiService($this->getServiceOptions());
 
     ['access_token' => $prevToken] = $trustpilotService->getAccessToken();
 
