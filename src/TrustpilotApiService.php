@@ -167,9 +167,33 @@ class TrustpilotApiService
      */
 
 
-    public function getReviews(array $query = [])
+    public function getPrivateReviews(array $query = [])
     {
         $uri = "{$this->privateUri}/reviews";
+
+        return $this->request([
+            'uri' => $uri,
+            'options' => [
+                'query' => $query
+            ]
+        ]);
+    }
+
+    public function getReviews(array $query = [])
+    {
+        $uri = "business-units/{$this->businessUnitId}/reviews";
+
+        return $this->request([
+            'uri' => $uri,
+            'options' => [
+                'query' => $query
+            ]
+        ]);
+    }
+
+    public function getReviewsPaginate(array $query = [])
+    {
+        $uri = "business-units/{$this->businessUnitId}/all-reviews";
 
         return $this->request([
             'uri' => $uri,
