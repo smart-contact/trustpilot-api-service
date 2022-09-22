@@ -32,11 +32,11 @@ jobs:
             - name: Install dependencies
               run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-            - name: Execute tests
-              run: vendor/bin/phpunit --configuration phpunit.ci.xml --testsuite Tests
-              env:
-                TRUSTPILOT_BUSINESS_UNIT_ID: ${{ secrets.TRUSTPILOT_BUSINESS_UNIT_ID }}
-                TRUSTPILOT_API_KEY: ${{ secrets.TRUSTPILOT_API_KEY }}
-                TRUSTPILOT_API_SECRET: ${{ secrets.TRUSTPILOT_API_SECRET }}
-                TRUSTPILOT_USERNAME: ${{ secrets.TRUSTPILOT_USERNAME }}
-                TRUSTPILOT_PASSWORD: ${{ secrets.TRUSTPILOT_PASSWORD }}
+            # - name: Execute tests
+              # run: vendor/bin/phpunit --configuration phpunit.ci.xml
+              # env:
+              #   TRUSTPILOT_BUSINESS_UNIT_ID: ${{ secrets.TRUSTPILOT_BUSINESS_UNIT_ID }}
+              #   TRUSTPILOT_API_KEY: ${{ secrets.TRUSTPILOT_API_KEY }}
+              #   TRUSTPILOT_API_SECRET: ${{ secrets.TRUSTPILOT_API_SECRET }}
+              #   TRUSTPILOT_USERNAME: ${{ secrets.TRUSTPILOT_USERNAME }}
+              #   TRUSTPILOT_PASSWORD: ${{ secrets.TRUSTPILOT_PASSWORD }}
