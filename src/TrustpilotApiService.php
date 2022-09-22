@@ -167,14 +167,14 @@ class TrustpilotApiService
      */
 
 
-    public function getReviews(array $params = [])
+    public function getReviews(array $query = [])
     {
         $uri = "{$this->privateUri}/reviews";
 
         return $this->request([
             'uri' => $uri,
             'options' => [
-                'params' => $params
+                'query' => $query
             ]
         ]);
     }
