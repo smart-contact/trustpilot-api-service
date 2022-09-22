@@ -167,7 +167,7 @@ class TrustpilotApiService
      */
 
 
-    public function getReviews(array $params)
+    public function getReviews(array $params = [])
     {
         $uri = "{$this->privateUri}/reviews";
 
