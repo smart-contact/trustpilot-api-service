@@ -17,7 +17,7 @@
   ],
   "require": {
     "php": "^7.4|^8.0",
-    "guzzlehttp/guzzle": "^7.5",
+    "guzzlehttp/guzzle": "^6.5",
     "nesbot/carbon": "^2.62"
   },
   "require-dev": {
