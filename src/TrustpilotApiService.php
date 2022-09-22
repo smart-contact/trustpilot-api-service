@@ -160,6 +160,24 @@ class TrustpilotApiService
         return $now->lessThan($this->accessToken['expires_at']);
     }
 
+    /**
+     * =============================
+     * BUSINESS UNITS API
+     * =============================
+     */
+
+
+    public function getReviews(array $params)
+    {
+        $uri = "{$this->privateUri}/reviews";
+
+        return $this->request([
+            'uri' => $uri,
+            'options' => [
+                'params' => $params
+            ]
+        ]);
+    }
 
     /**
      * =============================
