@@ -11,6 +11,7 @@ class TrustpilotApiService
     protected ?Client $invitationsClient = null;
     protected ?array $accessToken = null;
     private array $credentials;
+    private array $secrets;
     private string $businessUnitId;
     protected string $privateUri;
     protected string $apiVersion;
