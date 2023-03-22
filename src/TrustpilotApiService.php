@@ -26,7 +26,6 @@ class TrustpilotApiService
     ];
 
     /**
-     *
      * @param array $options 
      * @param string $options['business_unit_id']
      */
@@ -245,6 +244,20 @@ class TrustpilotApiService
         return $this->request([
             'uri' => $uri,
             'useInvitationsClient' => true
+        ]);
+    }
+
+    public function getInvitationsHistory(array $query = [])
+    {
+        $uri = "{$this->privateUri}/invitations/history";
+
+        return $this->request([
+            'uri' => $uri,
+            'method' => 'GET',
+            'useInvitationsClient' => true,
+            'options' => [
+                'query' => $query
+            ]
         ]);
     }
 }
