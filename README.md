@@ -15,11 +15,10 @@ composer require smart-contact/trustpilot-api-service
 
 ## Usage
 To use this class you have to pass this information: business unit ID, API KEY, API Secret, your username and password.
-The Service will automatically get an access token for the private API requests and when the token is invalid will automatically refresh.
 
-All the available methods tries to follow the same name as the API documentation.
+All the available methods try to follow the same name as the API documentation.
 All 'GET' requests, accept a param as query params and use the same keys as documentation.
-All 'POST' requests, accept 2 params, data and options(optional), same as query params, all keys are equals to the documentation.
+All 'POST' requests, accept 2 params, data and options(optional), same as query params, all keys are equal to the documentation.
 
 ```php
 use SmartContact/TrustpilotApiService/TrustpilotApiService;
@@ -32,11 +31,13 @@ $trustpilotService = new TrustpilotApiService([
   'password' => 'P4ssw0rd'
 ]);
 
+//authenticate to get a valid token
+$trustpilotService->authenticate(); // if you use the same instance, once you have authenticated the service will automatically refresh the token when it is expired
 
 //get invitation templates
 $data = $trustpilotService->getInvitationTemplates();
 
-var_dump($data['templates'])
+var_dump($data['templates']);
 
 ```
 
