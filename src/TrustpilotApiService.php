@@ -49,8 +49,6 @@ class TrustpilotApiService
 
         $this->businessUnitId = $options['business_unit_id'];
         $this->privateUri = "private/business-units/{$this->businessUnitId}";
-
-        $this->authenticate($this->secrets, $this->credentials);
     }
 
     protected function getInvitationsClient()

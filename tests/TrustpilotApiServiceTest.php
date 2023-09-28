@@ -27,18 +27,6 @@ final class TrustpilotApiServiceTest extends TestCase
     ];
   }
 
-  /** @test */
-  public function shouldSetAccessTokenWhenIsInstantiated()
-  {
-
-    $trustpilotService = new TrustpilotApiService($this->getServiceOptions());
-
-    $accessToken = $trustpilotService->getAccessToken();
-    $this->assertNotNull($accessToken);
-    $this->assertNotNull($accessToken['access_token']);
-    $this->assertNotNull($accessToken['refresh_token']);
-    $this->assertNotNull($accessToken['expires_at']);
-  }
 
   /** @test */
   public function shouldUseAccessTokenAlreadyTakenIfStillValid()
