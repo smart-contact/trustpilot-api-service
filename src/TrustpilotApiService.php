@@ -49,8 +49,6 @@ class TrustpilotApiService
 
         $this->businessUnitId = $options['business_unit_id'];
         $this->privateUri = "private/business-units/{$this->businessUnitId}";
-
-        $this->authenticate($this->secrets, $this->credentials);
     }
 
     protected function getInvitationsClient()
@@ -89,7 +87,7 @@ class TrustpilotApiService
 
         if ($this->isPrivateRequest($uri)) {
             if (!$this->hasValidAccessToken())
-                $this->authenticate($this->secrets, $this->credentials);
+                $this->authenticate();
 
             $options['headers']['Authorization'] = "Bearer {$this->accessToken['access_token']}";
         } else {
@@ -114,11 +112,11 @@ class TrustpilotApiService
     /**
      * Performs OAuth Authentication for private requests
      */
-    protected function authenticate(array $secrets, array $credentials): self
+    public function authenticate(): self
     {
         $uri = "oauth/oauth-business-users-for-applications/accesstoken";
 
-        $authorization = base64_encode(join(':', $secrets));
+        $authorization = base64_encode(join(':', $this->secrets));
 
         $response = $this->client->post(
             $uri,
@@ -127,7 +125,7 @@ class TrustpilotApiService
                     'Authorization' => $authorization
                 ],
                 'form_params' => array_merge(
-                    $credentials,
+                    $this->credentials,
                     ['grant_type' => 'password']
                 )
             ]
