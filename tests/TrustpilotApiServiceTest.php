@@ -12,7 +12,8 @@ final class TrustpilotApiServiceTest extends TestCase
   protected function setUp(): void
   {
     parent::setUp();
-    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/../', '.env');
     $dotenv->safeLoad();
   }
 
@@ -31,8 +32,10 @@ final class TrustpilotApiServiceTest extends TestCase
   /** @test */
   public function shouldUseAccessTokenAlreadyTakenIfStillValid()
   {
-    $trustpilotService = new TrustpilotApiService($this->getServiceOptions());
 
+    $trustpilotService = (new TrustpilotApiService)
+      ->init($this->getServiceOptions())
+      ->authenticate();
     ['access_token' => $prevToken] = $trustpilotService->getAccessToken();
 
     $trustpilotService->getInvitationTemplates();

@@ -23,7 +23,9 @@ All 'POST' requests, accept 2 params, data and options(optional), same as query 
 ```php
 use SmartContact/TrustpilotApiService/TrustpilotApiService;
 
-$trustpilotService = new TrustpilotApiService([
+$trustpilotService = new TrustpilotApiService();
+
+$trustpilotService->init([
   'business_unit_id' => '123456789',
   'api_key' => 'abcdefghijklmnopqrstuvwxyz',
   'api_secret' => '123456789abcdefghi',

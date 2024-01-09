@@ -26,30 +26,47 @@ class TrustpilotApiService
     ];
 
     /**
-     * @param array $options 
-     * @param string $options['business_unit_id']
+     * $config = [
+     *   'version' => string ('v1'),
+     *   'business_unit_id' => string,
+     *   'api_key' => string,
+     *   'api_secret' => string,
+     *   'username' => string,
+     *   'password' => string
+     * ]
+     *
+     * @param array<string, string> $config
      */
-    public function __construct(array $options)
+    private function setConfig(array $config)
     {
-        $this->apiVersion = array_key_exists('version', $options) ? $options['version'] : 'v1';
+        $this->apiVersion = array_key_exists('version', $config) ? $config['version'] : 'v1';
+
+        $this->secrets = [
+            'api_key' => $config['api_key'],
+            'api_secret' => $config['api_secret']
+        ];
+
+        $this->credentials = [
+            'username' => $config['username'],
+            'password' => $config['password']
+        ];
+
+        $this->businessUnitId = $config['business_unit_id'];
+    }
+
+    public function init(array $config): self
+    {
+        $this->setConfig($config);
 
         $this->client = new Client([
             'base_uri' => "https://api.trustpilot.com/{$this->apiVersion}/"
         ]);
 
-        $this->secrets = [
-            'api_key' => $options['api_key'],
-            'api_secret' => $options['api_secret']
-        ];
-
-        $this->credentials = [
-            'username' => $options['username'],
-            'password' => $options['password']
-        ];
-
-        $this->businessUnitId = $options['business_unit_id'];
         $this->privateUri = "private/business-units/{$this->businessUnitId}";
+
+        return $this;
     }
+
 
     protected function getInvitationsClient()
     {
@@ -83,7 +100,8 @@ class TrustpilotApiService
             'options' => $options,
         ] = $config;
 
-        if (!array_key_exists('headers', $options)) $options['headers'] = [];
+        if (!array_key_exists('headers', $options))
+            $options['headers'] = [];
 
         if ($this->isPrivateRequest($uri)) {
             if (!$this->hasValidAccessToken())
