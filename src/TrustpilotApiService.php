@@ -14,9 +14,9 @@ class TrustpilotApiService
     protected ?array $accessToken = null;
     private array $credentials;
     private array $secrets;
-    private string $businessUnitId;
-    protected string $privateUri;
-    protected string $apiVersion;
+    private ?string $businessUnitId;
+    protected ?string $privateUri;
+    protected ?string $apiVersion;
 
     protected array $defaultRequestConfig = [
         'uri' => null,
