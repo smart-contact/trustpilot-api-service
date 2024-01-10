@@ -2,13 +2,14 @@
 
 namespace SmartContact\TrustpilotApiService;
 
-use GuzzleHttp\Client;
+use Exception;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 
 class TrustpilotApiService
 {
     protected bool $initialized = false;
-    protected Client $client;
+    protected ?Client $client;
     protected ?Client $invitationsClient = null;
     protected ?array $accessToken = null;
     private array $credentials;
@@ -55,10 +56,28 @@ class TrustpilotApiService
         $this->businessUnitId = $config['business_unit_id'];
     }
 
+    protected function resetConfig()
+    {
+
+        $this->apiVersion = null;
+
+        $this->secrets = [
+            'api_key' => null,
+            'api_secret' => null
+        ];
+
+        $this->credentials = [
+            'username' => null,
+            'password' => null
+        ];
+
+        $this->businessUnitId = null;
+    }
+
     public function init(array $config): self
     {
         if ($this->initialized) {
-            throw new \Error('Service already initialized. If you want to update the configuration, please call \'clear()\' method first.');
+            throw new Exception('Service already initialized. If you want to update the configuration, please call \'clear()\' method first.');
         }
 
         $this->setConfig($config);
@@ -74,16 +93,26 @@ class TrustpilotApiService
         return $this;
     }
 
-    /** 
-     * Get a new istance with configuration cleared
+    /**
+     * Reset configurations
+     *
+     * @return self
      */
-    public function clear(): self
+    public function reset(): self
     {
-        return new self();
+
+        $this->resetConfig();
+
+        $this->client = null;
+
+        $this->privateUri = null;
+
+        $this->initialized = false;
+
+        return $this;
     }
 
-
-    protected function getInvitationsClient()
+    protected function getInvitationsClient(): Client
     {
         if (!$this->invitationsClient) {
             $this->invitationsClient = new Client([
@@ -106,8 +135,13 @@ class TrustpilotApiService
      * Wrap on Guzzle's client request.
      * Automatically adds token or authorization to headers option.
      */
-    protected function request(array $config)
+    protected function request(array $config): array
     {
+
+        if (!$this->initialized) {
+            throw new Exception("Service not initialized, cannot make request. Please call 'init()' method first.");
+        }
+
         $config = array_merge($this->defaultRequestConfig, $config);
         [
             'uri' => $uri,
