@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 class TrustpilotApiService
 {
+    protected bool $initialized = false;
     protected Client $client;
     protected ?Client $invitationsClient = null;
     protected ?array $accessToken = null;
@@ -56,6 +57,10 @@ class TrustpilotApiService
 
     public function init(array $config): self
     {
+        if ($this->initialized) {
+            throw new \Error('Service already initialized. If you want to update the configuration, please call \'clear()\' method first.');
+        }
+
         $this->setConfig($config);
 
         $this->client = new Client([
@@ -64,7 +69,17 @@ class TrustpilotApiService
 
         $this->privateUri = "private/business-units/{$this->businessUnitId}";
 
+        $this->initialized = true;
+
         return $this;
+    }
+
+    /** 
+     * Get a new istance with configuration cleared
+     */
+    public function clear(): self
+    {
+        return new self();
     }
 
 
